@@ -4,7 +4,10 @@
 
 My pitch is simple a good old fashioned game of battleship. I'll have two seperate 10x10 grids 
 where the player and computer will put their ships. Both sides will alternate turns till a victor 
-s determined.
+ determined.
+
+
+image.png
 
 
 ---- Tech being used --------
