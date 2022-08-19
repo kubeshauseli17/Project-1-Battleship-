@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="./script.js" charset="utf-8" defer></script>
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Battleship</h1>
+
+    <h3>
+        <div id="instructions">
+            <p>Instructions</p>
+            <li>- Select your ships</li>
+            <li>- Place your ships on your gameboard</li>
+            <li>- Click on the cells of the enemy's map
+                to find and destroy all 5 enemy ships</li>
+            <li>- The computer will fire on your ships
+                immediately after your turn</li>
+        </div>
+    </h3>
+
+    <div id="gameboards">
+
+        <div id="playersShips">
+            <ul>Place your ships</ul>
+            <li id="patrolBoat">Patrol Boat</li>
+            <li id="submarine">Submarine</li>
+            <li id="destroyer">Destroyer</li>
+            <li id="battleship">Battleship</li>
+            <li id="aircraftCarrier">Aircraft Carrier</li>
+            <button id="rotateShip">Rotate Ship</button>
+        </div>
+
+        <div id="playersBoard">Players Fleet</div>
+
+        <div id="computerBoard">Enemy Fleet</div>
+
+    </div>
+
+    <footer id="stats">
+        <li>Game Wins</li>
+        <li id="winTracker"></li>
+        <button id="resetButton">Reset Button</button>
+    </footer>
+
+
+
+</body>
+
+</html>

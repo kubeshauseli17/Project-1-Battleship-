@@ -1,0 +1,49 @@
+body {
+    background-color: cornsilk;
+}
+
+h1 {
+    align:center;
+    color: black;
+    margin: center;
+}
+
+#instructions {
+    align: center;
+    flex-direction: column;
+    font-size: 12pt;
+    color: black;
+    margin: center;
+}
+
+
+#gameboards {
+flex: auto;
+flex-direction: row;
+}
+
+#playersShips {
+    flex: auto;
+    flex-direction: column;
+    background-color: dimgray;
+    text-align: center;
+    color: black;
+    width: 200px;
+    height: 400px;
+    margin: left;
+}
+
+#playersBoard {
+    flex: grid;
+    flex-wrap: grid;
+}
+
+#computerBoard {
+    flex: grid;
+    flex-wrap: grid;
+}
+
+#stats {
+    flex: auto;
+    flex-direction: row;
+}
