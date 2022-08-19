@@ -7,7 +7,7 @@ where the player and computer will put their ships. Both sides will alternate tu
  determined.
 
 
-image.png
+[my wireframe](https://github.com/kubeshauseli17/Project-1-Battleship-/blob/main/wireframe.png)
 
 
 ---- Tech being used --------
