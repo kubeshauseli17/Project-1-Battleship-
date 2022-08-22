@@ -14,43 +14,51 @@
     <h1>Battleship</h1>
 
     <h3>
-        <div id="instructions">
+        <div class="instructions">
             <p>Instructions</p>
-            <li>- Select your ships</li>
-            <li>- Place your ships on your gameboard</li>
-            <li>- Click on the cells of the enemy's map
-                to find and destroy all 5 enemy ships</li>
-            <li>- The computer will fire on your ships
-                immediately after your turn</li>
+            <ul class="instructionsList">
+                <li>- Select your ships</li>
+                <li>- Place your ships on your gameboard</li>
+                <li>- Click on the cells of the enemy's map
+                    to find and destroy all 5 enemy ships</li>
+                <li>- The computer will fire on your ships
+                    immediately after your turn</li>
+            </ul>
         </div>
     </h3>
 
-    <div id="gameboards">
+    <div class="gameboards">
 
-        <div id="playersShips">
-            <ul>Place your ships</ul>
-            <li id="patrolBoat">Patrol Boat</li>
-            <li id="submarine">Submarine</li>
-            <li id="destroyer">Destroyer</li>
-            <li id="battleship">Battleship</li>
-            <li id="aircraftCarrier">Aircraft Carrier</li>
-            <button id="rotateShip">Rotate Ship</button>
+        <div class="playersShips">
+            <p class="psheader">Place your ships</p>
+            <ul class="ships">
+                <li id="patrolBoat">Patrol Boat</li>
+                <li id="submarine">Submarine</li>
+                <li id="destroyer">Destroyer</li>
+                <li id="battleship">Battleship</li>
+                <li id="aircraftCarrier">Aircraft Carrier</li>
+            </ul>
+            <button class="rotateShip">Rotate Ship</button>
         </div>
 
-        <div id="playersBoard">Players Fleet</div>
+        <div class="playersBoard">
+            <h2>Player's Fleet</h2>
+            <div class="pboard"></div>
+        </div>
 
-        <div id="computerBoard">Enemy Fleet</div>
+        <div class="computerBoard">
+            <h2>Enemy Fleet</h2>
+            <div class="cboard"></div>
+        </div>
 
     </div>
-
-    <footer id="stats">
+    <footer class="stats">
         <li>Game Wins</li>
-        <li id="winTracker"></li>
+        <button id="startButton">Start Button</button>
         <button id="resetButton">Reset Button</button>
     </footer>
 
-
-
 </body>
+
 
 </html>
