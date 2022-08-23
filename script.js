@@ -14,19 +14,12 @@ const computerBoard = document.querySelector('.computerBoard');
 const playerSquares = []
 const computerSquares = []
 let selectedShip;
-shipOrientation = false
-playerTurn = true
-computerShipsRemaining = 5
-playerShipsRemaining = 5
-// var slides = ["slide 1", "slide 2", "slide 3", "slide 4", "slide 5"]
-// var str = '<ul>'
-
-// slides.forEach(function(slide) {
-//   str += '<li>'+ slide + '</li>';
-// }); 
-
-// str += '</ul>';
-// document.getElementById("slideContainer").innerHTML = str;
+let currentIdx;
+let shipOrientation = false
+let placeShip = false
+let playerTurn = true
+let computerShipsRemaining = 5
+let playerShipsRemaining = 5
 
 const shipsArray = [{
     name: 'patrol boat',
@@ -34,7 +27,6 @@ const shipsArray = [{
 }, {
     name: 'submarine',
     size: 3
-
 }, {
     name: 'destroyer',
     size: 3
@@ -46,12 +38,17 @@ const shipsArray = [{
     size: 5
 }]
 
+computerShips = shipsArray.slice()
+//create a <ul> in JS
+//loop through the ships and create the <li> buttons
+//attach <ul> to dom
+
 shipsArray.forEach(function (ship, index) {
     const li = document.createElement('li');
     li.innerText = ship.name;
     li.classList.add('disabled')
     li.addEventListener('click', function () {
-        li.classList.add("selectedShip");
+        li.classList.add('.selectedShip')
         selectedShip = ship
     });
     document.querySelector(".innerList").appendChild(li);
@@ -59,13 +56,38 @@ shipsArray.forEach(function (ship, index) {
 
 //write a method that will check availability of the board
 
+//player tile select
+
+function playerShipPlacement(clicked, idx) {
+    for (i = 0; i < selectedShip.size; i++) {
+        if (!shipOrientation) {
+            currentIdx = idx + (10 * i)
+            document.querySelectorAll('.pGridSquare').forEach(function (sq, index) {
+                if (index == currentIdx) {
+                    console.log(index);
+                    sq.classList.add('player-square')
+                }
+            });
+
+        } else {
+            currentIdx = idx + (1 * i)
+            document.querySelectorAll('.pGridSquare').forEach(function (sq, index) {
+                if (index == currentIdx) {
+                    console.log(index);
+                    sq.classList.add('player-square')
+                }
+            });
+
+        }
+
+    }
+    selectedShip = null
+}
 
 
 
 
-//create a <ul> in JS
-//loop through the ships and create the <li> buttons
-//attach <ul> to dom
+
 
 ///create boards
 const makeBoards = () => {
@@ -84,15 +106,15 @@ const makeBoards = () => {
         const cGridSquare = document.createElement('div')
         cGridSquare.classList.add('cGridSquare')
         document.querySelector('.cboard').appendChild(cGridSquare)
-        // csquare.addEventListener('mouseover')
-        cGridSquare.addEventListener('click', function () {
-            console.log('click');
-        })
+
     }
 
 
 
 }
+
+// computer selection function
+
 
 //create a function to loop through board squares on click.
 //for vertical add 10 for the next square. try to select next square by index.
@@ -100,6 +122,7 @@ const makeBoards = () => {
 makeBoards();
 
 function startGame() {
+
     //on start remove all disabled classes. disable start game button
     document.querySelectorAll('.disabled').forEach(function (el) {
         el.classList.remove("disabled");
@@ -112,9 +135,12 @@ function startGame() {
 
     })
 
-    document.querySelectorAll('.pGridSquare').forEach(function (sq) {
+    document.querySelectorAll('.pGridSquare').forEach(function (sq, index) {
         sq.addEventListener('click', function () {
             sq.classList.add('player-square')
+            playerShipPlacement(sq, index);
+            document.querySelector('.selectedShip').classList.add('disabled')
+            selectedShip = null
             playerSquares.push(sq);
         })
     })
@@ -145,8 +171,8 @@ resetButton.addEventListener('click', function () {
 });
 
 const rotateButton = document.getElementById('rotateShip')
-rotateButton.addEventListener('click', function () {
-    console.log("click");
+rotateButton.addEventListener('click', function() {
+    shipOrientation = !shipOrientation
 });
 
 
