@@ -48,7 +48,7 @@ shipsArray.forEach(function (ship, index) {
     li.innerText = ship.name;
     li.classList.add('disabled')
     li.addEventListener('click', function () {
-        li.classList.add('.selectedShip')
+        li.classList.add('selectedShip')
         selectedShip = ship
     });
     document.querySelector(".innerList").appendChild(li);
@@ -58,30 +58,49 @@ shipsArray.forEach(function (ship, index) {
 
 //player tile select
 
-function playerShipPlacement(clicked, idx) {
-    for (i = 0; i < selectedShip.size; i++) {
-        if (!shipOrientation) {
-            currentIdx = idx + (10 * i)
-            document.querySelectorAll('.pGridSquare').forEach(function (sq, index) {
-                if (index == currentIdx) {
-                    console.log(index);
-                    sq.classList.add('player-square')
-                }
-            });
+function removeShip() {
+    var btn = document.querySelector('.selectedShip')
+    console.log(btn);
+    btn.parentNode.removeChild(btn);
+    playerShipsRemaining --
+    if(playerShipsRemaining === 0) {
+        setTimeout(function(){
+            alert("Start Game"); 
+       }, 1500);
+    } 
+    // playerSquares.push(sq);
+}
+//not allowed ship index placement
 
-        } else {
-            currentIdx = idx + (1 * i)
-            document.querySelectorAll('.pGridSquare').forEach(function (sq, index) {
-                if (index == currentIdx) {
-                    console.log(index);
-                    sq.classList.add('player-square')
-                }
-            });
+
+function playerShipPlacement(clicked, idx) {
+    if (selectedShip) {
+        for (i = 0; i < selectedShip.size; i++) {
+            if (!shipOrientation) {
+                currentIdx = idx + (10 * i)
+                document.querySelectorAll('.pGridSquare').forEach(function (sq, index) {
+                    if (index == currentIdx) {
+                        sq.classList.add('player-square')
+                    }
+                });
+
+            } else {
+                currentIdx = idx + (1 * i)
+                document.querySelectorAll('.pGridSquare').forEach(function (sq, index) {
+                    if (index == currentIdx) {
+                        sq.classList.add('player-square')
+                    }
+                });
+
+            }
 
         }
-
+        removeShip();
+        selectedShip = null
+    } else {
+        return;
     }
-    selectedShip = null
+
 }
 
 
@@ -137,11 +156,11 @@ function startGame() {
 
     document.querySelectorAll('.pGridSquare').forEach(function (sq, index) {
         sq.addEventListener('click', function () {
-            sq.classList.add('player-square')
-            playerShipPlacement(sq, index);
-            document.querySelector('.selectedShip').classList.add('disabled')
-            selectedShip = null
-            playerSquares.push(sq);
+            if (selectedShip) {
+                sq.classList.add('player-square')
+                playerShipPlacement(sq, index);
+            }
+
         })
     })
 
@@ -171,7 +190,7 @@ resetButton.addEventListener('click', function () {
 });
 
 const rotateButton = document.getElementById('rotateShip')
-rotateButton.addEventListener('click', function() {
+rotateButton.addEventListener('click', function () {
     shipOrientation = !shipOrientation
 });
 
