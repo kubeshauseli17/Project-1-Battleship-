@@ -115,43 +115,17 @@ function compareSquares(arr1, arr2) {
 
 function validateGridSelection(indexes, shipSize) {
 
-    if (shipSize == 2 && shipOrientation == false) {
+    if (shipOrientation == false) {
         const notAllowedVertical = [100, 101, 102, 103, 104, 105, 106, 107, 108, 109]
         return compareSquares(notAllowedVertical, indexes)
 
-    } else if (shipSize == 2 && shipOrientation == true) {
-        const notAllowedHorizontal = [[9, 10], [19, 20], [29, 30], [39, 40], [49, 50],
-        [59, 60], [69, 70], [79, 80], [89, 90], [99, 100]]
-        return compareSquares(notAllowedHorizontal, indexes)
-
-    } else if (shipSize == 3 && shipOrientation == false) {
-        const notAllowedVertical = [100, 101, 102, 103, 104, 105, 106, 107, 108, 109]
-        return compareSquares(notAllowedVertical, indexes)
-
-    } else if (shipSize == 3 && shipOrientation == true) {
-        const notAllowedHorizontal = [[9, 10], [19, 20], [29, 30], [39, 40], [49, 50],
-        [59, 60], [69, 70], [79, 80], [89, 90], [99, 100]]
-        return compareSquares(notAllowedHorizontal, indexes)
-
-    } else if (shipSize == 4 && shipOrientation == false) {
-        const notAllowedVertical = [100, 101, 102, 103, 104, 105, 106, 107, 108, 109]
-        return compareSquares(notAllowedVertical, indexes)
-
-    } else if (shipSize == 4 && shipOrientation == true) {
-        const notAllowedHorizontal = [[9, 10], [19, 20], [29, 30], [39, 40], [49, 50],
-        [59, 60], [69, 70], [79, 80], [89, 90], [99, 100]]
-        return compareSquares(notAllowedHorizontal, indexes)
-
-    } else if (shipSize == 5 && shipOrientation == false) {
-        const notAllowedVertical = [100, 101, 102, 103, 104, 105, 106, 107, 108, 109];
-        return compareSquares(notAllowedVertical, indexes)
-
-    } else if (shipSize == 5 && shipOrientation == true) {
+    } else {
         const notAllowedHorizontal = [[9, 10], [19, 20], [29, 30], [39, 40], [49, 50],
         [59, 60], [69, 70], [79, 80], [89, 90], [99, 100]]
         return compareSquares(notAllowedHorizontal, indexes)
     }
 
+ // log ship indexes and check the .player-square class. if the class is already set dont allow placement
     //return true if can complete move false if cant
 }
 
