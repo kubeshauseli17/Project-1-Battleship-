@@ -3,24 +3,22 @@ window.addEventListener('DOMContentLoaded', () => {
 
 const playerBoard = document.querySelector('.playersBoard');
 const computerBoard = document.querySelector('.computerBoard');
-//remove button const after loop works
-
-// const patrolBoatButton = document.getElementById('patrolBoat');
-// const submarineButton = document.getElementById('submarine');
-// const destroyerButton = document.getElementById('destroyer');
-// const battleshipButton = document.getElementById('battleship');
-// const aircraftCarrierButton = document.getElementById('aircraftCarrier');
-
 const playerSquares = []
 const computerSquares = []
+const playerPlacedShipIdx = []
+const computerPlacedShipIdx = []
+
 let selectedShip;
+let compShip;
 let currentIdx;
 let shipOrientation = false
 let placeShip = false
 let playerTurn = true
 let computerShipsRemaining = 5
 let playerShipsRemaining = 5
+
 const width = 10
+
 const shipsArray = [{
     name: 'patrol boat',
     size: 2
@@ -77,14 +75,25 @@ function removeShip() {
 //variable for which indexes are not okay per size
 function compareSquares(arr1, arr2) {
     let multiMatches = [];
-    console.log(arr1);
 
     //loop through arr2
     //if arr1[i].length > 1
     //loop through arr1 and push matches into new array
     //if new array == arr1[i] return true (matches)
+    for (let e = 0; e < playerPlacedShipIdx.length; e++) {
+        if (playerPlacedShipIdx[e]) {
+            for (let k = 0; k < arr2.length; k++) {
+                if (playerPlacedShipIdx[e] == arr2[k]) {
+                    return true;
+                } else {
+                    matches = false
+                }
+            }
+        }
+    }
+
+
     for (let a = 0; a < arr1.length; a++) {
-        console.log(arr1[a]);
         if (arr1[a] && arr1[a].length > 1) {
             arr1[a].forEach(function (num) {
                 for (let b = 0; b < arr2.length; b++) {
@@ -93,7 +102,6 @@ function compareSquares(arr1, arr2) {
                     }
                 }
             })
-            console.log(multiMatches, arr1[a]);
             if (JSON.stringify(arr1[a]) == JSON.stringify(multiMatches)) {
                 return true;
             } else {
@@ -113,7 +121,10 @@ function compareSquares(arr1, arr2) {
     return matches
 }
 
-function validateGridSelection(indexes, shipSize) {
+function validateGridSelection(indexes) {
+
+
+
 
     if (shipOrientation == false) {
         const notAllowedVertical = [100, 101, 102, 103, 104, 105, 106, 107, 108, 109]
@@ -125,12 +136,13 @@ function validateGridSelection(indexes, shipSize) {
         return compareSquares(notAllowedHorizontal, indexes)
     }
 
- // log ship indexes and check the .player-square class. if the class is already set dont allow placement
-    //return true if can complete move false if cant
+
+
 }
 
-function playerShipPlacement(clicked, idx) {
+function playerShipPlacement(idx) {
     let indexes = []
+    let compIndexes = []
     //set up indecies to be coloured
     if (selectedShip) {
         for (i = 0; i < selectedShip.size; i++) {
@@ -150,6 +162,8 @@ function playerShipPlacement(clicked, idx) {
                 indexes.forEach(function (idx) {
                     if (index == idx) {
                         sq.classList.add('player-square')
+                        playerPlacedShipIdx.push(index)
+                        console.log(playerPlacedShipIdx)
                     }
                 })
             });
@@ -159,7 +173,34 @@ function playerShipPlacement(clicked, idx) {
         removeShip();
         selectedShip = null
     } else {
-        return;
+        if (compShip) {
+            console.log(compShip);
+            for (i = 0; i < compShip.size; i++) {
+                if (!shipOrientation) {
+                    currentIdx = idx + (10 * i)
+                    // console.log(currentIdx);
+                    compIndexes.push(currentIdx)
+                    // console.log(indexes);
+                } else {
+                    currentIdx = idx + (1 * i)
+                    compIndexes.push(currentIdx)
+                }
+            }
+
+            if (!validateGridSelection(compIndexes, compShip.size)) {
+                document.querySelectorAll('.cGridSquare').forEach(function (sq, index) {
+                    compIndexes.forEach(function (idx) {
+                        if (index == idx) {
+                            sq.classList.add('selectedCompSquare')
+                            computerPlacedShipIdx.push(index)
+                            console.log(computerPlacedShipIdx)
+                        }
+                    })
+                });
+            } else {
+                return;
+            }
+        }
     }
 
 }
@@ -248,27 +289,36 @@ function startGame() {
     document.querySelectorAll('.disabled').forEach(function (el) {
         el.classList.remove("disabled");
     })
+    //hover stretch goal
+    // document.querySelectorAll('.pGridSquare').forEach(function (sq) {
+    //     sq.addEventListener('mouseenter', function () {
+    //     })
 
-    document.querySelectorAll('.pGridSquare').forEach(function (sq) {
-        sq.addEventListener('mouseenter', function () {
-        })
-
-    })
+    // })
 
     document.querySelectorAll('.pGridSquare').forEach(function (sq, index) {
         sq.addEventListener('click', function () {
             if (selectedShip) {
-                playerShipPlacement(sq, index);
+                playerShipPlacement(index);
             }
-
         })
     })
 
+    document.querySelectorAll('.cGridSquare').forEach(function (sq, index) {
+        sq.addEventListener('click', function () {
+            // cGridSquare.classList.add('selectedCompSquare')
+            // if (selectedCompSquare) {
+            //     playerShot(sq, index);
+            // }
+        })
+    })
 
-    //promp player to select ships
+    // user shot taking function. overlays div background with red or black circles. logs hit indexes.
 
+    function playerShot(sq, index) {
 
-    //generate computer ship positions
+    }
+
 
 
 }
@@ -282,7 +332,16 @@ function startGame() {
 //more game buttons
 
 const startButton = document.getElementById('startButton')
-startButton.addEventListener('click', startGame)
+startButton.addEventListener('click', function () {
+    startGame();
+    shipsArray.forEach(function (ship) {
+        compShip = ship;
+
+        //loop through comp squares and then randomly select one to pass to playerShipPlacement
+        //cGridSquare.classList.add('cGridSquare')
+        playerShipPlacement(compShip)
+    })
+})
 
 const resetButton = document.getElementById('resetButton')
 resetButton.addEventListener('click', function () {
