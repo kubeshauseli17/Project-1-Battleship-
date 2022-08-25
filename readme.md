@@ -40,3 +40,5 @@ Implement Battleboat Javascript AI for the computer.
 
 Not certain, everything seems fairly doable.
 
+broken game
+https://github.com/kubeshauseli17/Project-1-Battleship-/deployments/activity_log?environment=github-pages
