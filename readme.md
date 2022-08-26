@@ -42,3 +42,6 @@ Not certain, everything seems fairly doable.
 
 broken game
 https://github.com/kubeshauseli17/Project-1-Battleship-/deployments/activity_log?environment=github-pages
+
+---- Reflections ------
+I definitely should've picked something easier. I couldn't figure out the logic issues with randomly placing computer ships and verifying they arent intersecting. I ran into that bug yesterday morning and couldn't figure out a way around it.
