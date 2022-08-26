@@ -81,7 +81,7 @@ function computerShipPlacement() {
         compShipOrientation = Math.random() >= 0.5;
         playerShipPlacement(randomStart, compShipOrientation)
         compShips = compShips.slice(1);
-        // console.log("array after shift", compShips);
+        console.log("array after shift", compShips);
     }
 }
 //not allowed ship index placement
