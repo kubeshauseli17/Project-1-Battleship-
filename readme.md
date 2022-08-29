@@ -39,8 +39,9 @@ Implement Battleboat Javascript AI for the computer.
 
 Not certain, everything seems fairly doable.
 
-broken game
+---- Finished game -----
 https://github.com/kubeshauseli17/Project-1-Battleship-/deployments/activity_log?environment=github-pages
 
 ---- Reflections ------
-I definitely should've picked something easier. I couldn't figure out the logic issues with randomly placing computer ships and verifying they arent intersecting. I ran into that bug yesterday morning and couldn't figure out a way around it.
+
+I definitely should've picked something easier. I couldn't figure out the logic issues with randomly placing computer ships and verifying they arent intersecting. I ran into numerous bugs at the end of this project that where tedious to resolve. Next project I need to do a better job of planning everything out and accounting for time debugging. I also need to do a better job of asking for help, limiting the scope of my MVP to something more realistically attainable, and add any non essential goals to stretch.
