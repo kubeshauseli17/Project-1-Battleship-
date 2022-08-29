@@ -30,6 +30,7 @@
     <div class="gameboards">
 
         <div class="playersShips">
+            <span id="userPrompt"></span>
             <p class="psheader">Place your ships</p>
             <ul class="innerList"></ul>
 
@@ -38,17 +39,20 @@
 
         <div class="playersBoard">
             <h2>Player's Fleet</h2>
-            <div class="pboard"></div>
+            <div id="pboard" class="pboard"></div>
         </div>
 
         <div class="computerBoard">
             <h2>Enemy Fleet</h2>
-            <div class="cboard"></div>
+            <div id="cboard" class="cboard"></div>
         </div>
 
     </div>
     <footer class="stats">
-        <li>Game Wins</li>
+        <div class="playerWins">Player Wins</div>
+        <span id="playerWin"></span>
+        <div class="computerWins">Computer Wins</div>
+        <span id="compWin"></span>
         <button id="startButton">Start Button</button>
         <button id="resetButton">Reset Button</button>
     </footer>

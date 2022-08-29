@@ -1,13 +1,16 @@
+
 window.addEventListener('DOMContentLoaded', () => {
 })
 
 const playerBoard = document.querySelector('.playersBoard');
 const computerBoard = document.querySelector('.computerBoard');
-const playerSquares = []
-const computerSquares = []
-const playerPlacedShipIdx = []
-const computerPlacedShipIdx = []
 
+let playerPlacedShipIdx = []
+let computerPlacedShipIdx = []
+let playerSquares = []
+let computerSquares = []
+let playerHits = 0
+let computerHits = 0
 let selectedShip;
 let compShip;
 let currentIdx;
@@ -17,7 +20,8 @@ let placeShip = false
 let playerTurn = true
 let computerShipsRemaining = 5
 let playerShipsRemaining = 5
-
+let playerWins = 0
+let computerWins = 0
 const width = 10
 
 const shipsArray = [{
@@ -40,50 +44,141 @@ const shipsArray = [{
 let compShips = shipsArray.slice()
 
 
+
+
 //create a <ul> in JS
 //loop through the ships and create the <li> buttons
 //attach <ul> to dom
 
-shipsArray.forEach(function (ship, index) {
-    const li = document.createElement('li');
-    li.innerText = ship.name;
-    li.classList.add('disabled')
-    li.addEventListener('click', function () {
-        li.classList.add('selectedShip')
-        selectedShip = ship
+///create boards
+const makeBoards = () => {
+    for (let i = 0; i < 100; i++) {
+
+        const pGridSquare = document.createElement('div')
+        pGridSquare.classList.add('pGridSquare')
+        document.querySelector('.pboard').appendChild(pGridSquare)
+    }
+
+    for (let c = 0; c < 100; c++) {
+        const cGridSquare = document.createElement('div')
+        cGridSquare.classList.add('cGridSquare')
+        document.querySelector('.cboard').appendChild(cGridSquare)
+    }
+}
+
+function generateGameElements() {
+    shipsArray.forEach(function (ship, index) {
+        const li = document.createElement('li');
+        li.innerText = ship.name;
+        li.classList.add('disabled')
+        li.addEventListener('click', function () {
+            li.classList.add('selectedShip')
+            selectedShip = ship
+        });
+        document.querySelector(".innerList").appendChild(li);
     });
-    document.querySelector(".innerList").appendChild(li);
-});
 
-//write a method that will check availability of the board
+    document.getElementById('resetButton').classList.add('disabled');
+    makeBoards();
+}
 
-//player tile select
+generateGameElements();
+
+//player tile selected
+function shipsPlaced() {
+    if (playerShipsRemaining === 0) {
+        document.getElementById("userPrompt").innerText = "Player Start";
+    }
+    // add event listener
+    document.querySelectorAll('.cGridSquare').forEach(function (sq, index) {
+        sq.addEventListener('click', function () {
+            console.log(sq.classList);
+            if (sq.classList.contains('selectedCompSquare')) {
+                alert('Invalid move')
+            } else {
+                sq.classList.add('selectedCompSquare')
+                sq.innerText = "X";
+                checkForHits(sq, index)
+            }
+            document.getElementById("userPrompt").innerText = "";
+        })
+    })
+}
+
+function checkForHits(sq, index) {
+    // verifies player hits
+    if (playerTurn) {
+        // const playerHitArray = document.querySelectorAll('selectedCompSquare')
+        if (computerPlacedShipIdx.includes(index)) {
+            sq.style.backgroundColor = "blue";
+            playerHits++
+        }
+
+        if (playerHits === computerPlacedShipIdx.length) {
+            playerWins++
+            document.getElementById("playerWin").innerText = playerWins;
+        }
+        console.log(playerWins)
+        console.log(document.getElementsByClassName("playerWin").innerText)
+        playerTurn = false
+        sq.removeEventListener('click', computerShot())
+    } else {
+        if (playerPlacedShipIdx.includes(index)) {
+            console.log(playerPlacedShipIdx);
+            sq.style.backgroundColor = "black";
+            console.log('computerHits', computerHits);
+            computerHits++
+        }
+
+        if (computerHits === playerPlacedShipIdx.length) {
+            computerWins++
+            document.getElementById("compWin").innerText = computerWins;
+        }
+        playerTurn = true
+        sq.removeEventListener('click', null)
+    }
+
+}
+
+
 
 function removeShip() {
     var btn = document.querySelector('.selectedShip')
     btn.parentNode.removeChild(btn);
     playerShipsRemaining--
     if (playerShipsRemaining === 0) {
-        setTimeout(function () {
-            alert("Start Game");
-        }, 1500);
+        shipsPlaced()
     }
 }
 
-function computerShipPlacement() {
-    compShips = compShips.filter(val => val);
+function computerShot() {
+    const playableSquares = document.querySelectorAll('.pGridSquare');
+    randomShot = Math.floor(Math.random() * playableSquares.length);
 
-    for (let c = 0; c < compShips.length; c++) {
-        console.log('compShips[c]', compShips[c]);
-        console.log(compShips);
-        compShip = compShips[c]
-        randomStart = Math.abs(Math.floor(Math.random() * document.querySelectorAll('.cGridSquare').length));
-        compShipOrientation = Math.random() >= 0.5;
-        playerShipPlacement(randomStart, compShipOrientation)
-        compShips = compShips.slice(1);
-        console.log("array after shift", compShips);
-    }
+    while (playableSquares[randomShot].classList.contains('computerSelectedSquare')) {
+        randomShot = Math.floor(Math.random() * playableSquares.length);
+    };
+
+    const randomPlacement = playableSquares[randomShot];
+
+    randomPlacement.classList.add('computerSelectedSquare')
+    randomPlacement.innerText = "X"
+    checkForHits(randomPlacement, randomShot)
 }
+// function computerShipPlacement() {
+//     compShips = compShips.filter(val => val);
+
+//     for (let c = 0; c < compShips.length; c++) {
+//         console.log('compShips[c]', compShips[c]);
+//         console.log(compShips);
+//         compShip = compShips[c]
+//         randomStart = Math.abs(Math.floor(Math.random() * document.querySelectorAll('.cGridSquare').length));
+//         compShipOrientation = Math.random() >= 0.5;
+//         playerShipPlacement(randomStart, compShipOrientation)
+//         compShips = compShips.slice(1);
+//         console.log("array after shift", compShips);
+//     }
+// }
 //not allowed ship index placement
 
 //validation function with parameters idx of clicked and size of selected ship
@@ -92,7 +187,6 @@ function computerShipPlacement() {
 function compareSquares(arr1, arr2, type) {
     let anyMatches = [];
     let matches;
-    console.log(type)
     if (type == 'player') {
         for (let e = 0; e < playerPlacedShipIdx.length; e++) {
             if (playerPlacedShipIdx[e]) {
@@ -105,19 +199,19 @@ function compareSquares(arr1, arr2, type) {
                 }
             }
         }
-    } else {
-        for (let e = 0; e < computerPlacedShipIdx.length; e++) {
-            if (computerPlacedShipIdx[e]) {
-                for (let k = 0; k < arr2.length; k++) {
-                    if (computerPlacedShipIdx[e] == arr2[k]) {
-                        console.log("there's a match")
-                        return computerShipPlacement()
-                    } else {
-                        matches = false
-                    }
-                }
-            }
-        }
+        // } else {
+        //     for (let e = 0; e < computerPlacedShipIdx.length; e++) {
+        //         if (computerPlacedShipIdx[e]) {
+        //             for (let k = 0; k < arr2.length; k++) {
+        //                 if (computerPlacedShipIdx[e] == arr2[k]) {
+        //                     console.log("there's a match")
+        //                     return computerShipPlacement()
+        //                 } else {
+        //                     matches = false
+        //                 }
+        //             }
+        //         }
+        //     }
     }
 
     for (let a = 0; a < arr1.length; a++) {
@@ -163,7 +257,6 @@ function validateGridSelection(indexes, shipType) {
 }
 
 function playerShipPlacement(idx) {
-    console.log(idx);
     let indexes = []
     let compIndexes = []
     //selected ship == player input
@@ -172,9 +265,11 @@ function playerShipPlacement(idx) {
             if (!shipOrientation) {
                 currentIdx = idx + (10 * i)
                 indexes.push(currentIdx)
+                compIndexes.push(currentIdx)
             } else {
                 currentIdx = idx + (1 * i)
                 indexes.push(currentIdx)
+                compIndexes.push(currentIdx)
             }
         }
         //validate and colour, or dont
@@ -186,76 +281,39 @@ function playerShipPlacement(idx) {
                         playerPlacedShipIdx.push(index)
                     }
                 })
-            });
+            })
         } else {
-            return;
+            return
+        } if (!validateGridSelection(compIndexes)) {
+            document.querySelectorAll('.cGridSquare').forEach(function (sq, index) {
+                compIndexes.forEach(function (idx) {
+                    if (index == idx) {
+                        sq.classList.add('comp-square')
+                        computerPlacedShipIdx.push(index)
+                    }
+                })
+            });
         }
+
         removeShip();
         selectedShip = null
-    } else {
-        //comp ship == random placement
-        if (compShip) {
-            for (i = 0; i < compShip.size; i++) {
-                if (!compShipOrientation) {
-                    currentIdx = idx + (10 * i)
-                    // console.log(currentIdx);
-                    compIndexes.push(currentIdx)
-                    //console.log(indexes);
-                } else {
-                    currentIdx = idx + (1 * i)
-                    compIndexes.push(currentIdx)
-                }
-            }
-            if (!validateGridSelection(compIndexes, 'comp')) {
-                document.querySelectorAll('.cGridSquare').forEach(function (sq, index) {
-                    compIndexes.forEach(function (idx) {
-                        if (index == idx) {
-                            sq.classList.add('selectedCompSquare')
-                            computerPlacedShipIdx.push(index)
-                        }
-                    })
-                });
-            } else {
-                return;
-            }
 
-            compShip = null
-        }
     }
 
 }
 
 
-///create boards
-const makeBoards = () => {
-    for (let i = 0; i < 100; i++) {
 
-        const pGridSquare = document.createElement('div')
-        pGridSquare.classList.add('pGridSquare')
-        document.querySelector('.pboard').appendChild(pGridSquare)
-    }
-
-    for (let c = 0; c < 100; c++) {
-        const cGridSquare = document.createElement('div')
-        cGridSquare.classList.add('cGridSquare')
-        document.querySelector('.cboard').appendChild(cGridSquare)
-    }
-}
-
-
-makeBoards();
 
 function startGame() {
     //on start remove all disabled classes. disable start game button
     document.querySelectorAll('.disabled').forEach(function (el) {
         el.classList.remove("disabled");
     })
-    //hover stretch goal
-    // document.querySelectorAll('.pGridSquare').forEach(function (sq) {
-    //     sq.addEventListener('mouseenter', function () {
-    //     })
 
-    // })
+    document.getElementById('resetButton').classList.remove('disabled');
+
+
     document.querySelectorAll('.pGridSquare').forEach(function (sq, index) {
         sq.addEventListener('click', function () {
             if (selectedShip) {
@@ -264,26 +322,26 @@ function startGame() {
         })
     })
 
-    document.querySelectorAll('.cGridSquare').forEach(function (sq, index) {
-        // sq.addEventListener('click', function () {
-        //     cGridSquare.classList.add('selectedCompSquare')
-        //     if (selectedCompSquare) {
-        //         playerShot(sq, index);
-        //     }
-        // })
-    })
+}
 
-    computerShipPlacement();
+function resetGame() {
+    playerSquares = []
+    computerSquares = []
+    playerPlacedShipIdx = []
+    computerPlacedShipIdx = []
+    playerHits = 0
+    computerHits = 0
+    indexes = []
+    compIndexes = []
+    playerTurn = true
+    playerShipsRemaining = 5
 
-    // user shot taking function. overlays div background with red or black circles. logs hit indexes.
-
-    // function playerShot(sq, index) {
-
-    // }
-
-
+    document.getElementById('pboard').innerHTML = ""
+    document.getElementById('cboard').innerHTML = ""
+    generateGameElements();
 
 }
+
 
 const startButton = document.getElementById('startButton')
 startButton.addEventListener('click', function () {
@@ -293,7 +351,7 @@ startButton.addEventListener('click', function () {
 
 const resetButton = document.getElementById('resetButton')
 resetButton.addEventListener('click', function () {
-    console.log("click");
+    resetGame();
 });
 
 const rotateButton = document.getElementById('rotateShip')
