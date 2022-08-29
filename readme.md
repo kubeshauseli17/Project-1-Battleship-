@@ -26,8 +26,7 @@ Render each players 5 ships (Patrol Boat, Submarine, Destroyer, Battleship, and 
 
 Let the player select their ships locations and orientation. Have computer randomly select its 
 ships location and orientaion.
-
-Have turn tracker and mark already targeted blocks. Mark hit ships with red blocks and track the
+ agree agree agreed blocks. Mark hit ships with red blocks and track the
 ships damage. Sunken ships are marked black. 
 
 Track each players ships and determine winner when all opposing ships are sunk. Track player wins.
